@@ -1,0 +1,66 @@
+let fase = 1;
+const fala = window.speechSynthesis;
+
+function falar(texto) {
+  const msg = new SpeechSynthesisUtterance(texto);
+  msg.lang = "pt-BR";
+  fala.cancel();
+  fala.speak(msg);
+}
+
+function proximaFase() {
+  fase++;
+  const texto = document.getElementById("phaseText");
+  const msg = document.getElementById("message");
+
+  if (fase === 2) {
+    texto.textContent = "Agora clique na bola!";
+    msg.textContent = "";
+    falar("Muito bem! Agora clique na bola!");
+  } else if (fase === 3) {
+    texto.textContent = "Clique na boneca!";
+    msg.textContent = "";
+    falar("Excelente! Agora clique na boneca!");
+  } else {
+    texto.textContent = "Parabéns! Você terminou todas as fases! 🎉";
+    msg.textContent = "Fim de jogo!";
+    document.getElementById("restart").style.display = "inline-block";
+    falar("Parabéns! Você venceu o jogo das Aventuras do Bem!");
+  }
+}
+
+document.getElementById("dog").addEventListener("click", () => {
+  if (fase === 1) {
+    document.getElementById("message").textContent = "Legal! Você achou o cachorro!";
+    falar("Legal! Você achou o cachorro!");
+    proximaFase();
+  }
+});
+
+document.getElementById("ball").addEventListener("click", () => {
+  if (fase === 2) {
+    document.getElementById("message").textContent = "Boa! Você achou a bola!";
+    falar("Boa! Você achou a bola!");
+    proximaFase();
+  }
+});
+
+document.getElementById("doll").addEventListener("click", () => {
+  if (fase === 3) {
+    document.getElementById("message").textContent = "Uau! Você achou a boneca!";
+    falar("Uau! Você achou a boneca!");
+    proximaFase();
+  }
+});
+
+function restartGame() {
+  fase = 1;
+  document.getElementById("phaseText").textContent = "Clique no cachorro!";
+  document.getElementById("message").textContent = "";
+  document.getElementById("restart").style.display = "none";
+  falar("Vamos jogar de novo! Clique no cachorro!");
+}
+
+window.onload = () => {
+  falar("Bem-vindo ao jogo Aventuras do Bem! Clique no cachorro para começar!");
+};
